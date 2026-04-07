@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
+
 import { Dumbbell, Shield, Zap, ScrollText } from "lucide-react";
 import {
   Dialog,

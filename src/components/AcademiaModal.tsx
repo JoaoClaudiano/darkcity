@@ -49,7 +49,7 @@ const AcademiaModal = ({ open, onOpenChange }: AcademiaModalProps) => {
       ...prev,
       energia: prev.energia - ENERGY_COST,
       [option.stat]: prev[option.stat] + gain,
-      xp: Math.min(prev.xp + 5, prev.xpMax),
+      xp: prev.xp + 5,
     }));
 
     addLog(`Você treinou ${option.statLabel} e ganhou +${gain} pontos!`);

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Dumbbell, Skull, ShoppingBag, Heart, Lock } from "lucide-react";
+import { toast } from "sonner";
+import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
 import AcademiaModal from "./AcademiaModal";
+import CrimesModal from "./CrimesModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";
@@ -48,6 +51,17 @@ const locations = [
 
 const MapSection = () => {
   const [academiaOpen, setAcademiaOpen] = useState(false);
+  const [crimesOpen, setCrimesOpen] = useState(false);
+  const { isInJail } = useGame();
+
+  const handleLocationClick = (id: string) => {
+    if (isInJail) {
+      toast.error("Você está preso! Aguarde ou pague a fiança.");
+      return;
+    }
+    if (id === "academia") setAcademiaOpen(true);
+    else if (id === "favela") setCrimesOpen(true);
+  };
 
   return (
     <section className="pt-28 pb-8 px-4">
@@ -65,7 +79,7 @@ const MapSection = () => {
           <div key={loc.id} className="snap-center">
             <LocationCard
               {...loc}
-              onClick={loc.id === "academia" ? () => setAcademiaOpen(true) : undefined}
+              onClick={() => handleLocationClick(loc.id)}
             />
           </div>
         ))}
@@ -73,6 +87,7 @@ const MapSection = () => {
       </div>
 
       <AcademiaModal open={academiaOpen} onOpenChange={setAcademiaOpen} />
+      <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} />
     </section>
   );
 };

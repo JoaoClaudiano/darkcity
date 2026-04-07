@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Dumbbell, Skull, ShoppingBag, Heart, Lock } from "lucide-react";
+import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Swords } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
 import AcademiaModal from "./AcademiaModal";
 import CrimesModal from "./CrimesModal";
+import CombatModal from "./CombatModal";
 import LojaModal from "./LojaModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
@@ -23,7 +24,7 @@ const locations = [
   {
     id: "favela",
     title: "Favela",
-    description: "Cometa crimes, roube e ganhe respeito no submundo.",
+    description: "Cometa crimes, lute e ganhe respeito no submundo.",
     image: favelaImg,
     icon: Skull,
   },
@@ -53,6 +54,7 @@ const locations = [
 const MapSection = () => {
   const [academiaOpen, setAcademiaOpen] = useState(false);
   const [crimesOpen, setCrimesOpen] = useState(false);
+  const [combatOpen, setCombatOpen] = useState(false);
   const [lojaOpen, setLojaOpen] = useState(false);
   const { isInJail } = useGame();
 
@@ -67,7 +69,7 @@ const MapSection = () => {
   };
 
   return (
-    <section className="pt-28 pb-8 px-4">
+    <section className="pt-32 pb-8 px-4">
       <div className="max-w-lg mx-auto mb-4">
         <h2 className="font-mono-game text-sm font-bold text-muted-foreground uppercase tracking-widest">
           // Mapa da Cidade
@@ -87,7 +89,8 @@ const MapSection = () => {
       </div>
 
       <AcademiaModal open={academiaOpen} onOpenChange={setAcademiaOpen} />
-      <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} />
+      <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} onOpenCombat={() => setCombatOpen(true)} />
+      <CombatModal open={combatOpen} onOpenChange={setCombatOpen} />
       <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
     </section>
   );

@@ -1,12 +1,18 @@
 import { toast } from "sonner";
-import { useGame } from "@/contexts/GameContext";
-import { Skull, Wallet, Store, Car, ScrollText } from "lucide-react";
+import { useGame, getRankIndex } from "@/contexts/GameContext";
+import { Skull, Wallet, Store, Car, Swords, ScrollText } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
 interface CrimeOption {
   label: string;
@@ -16,6 +22,8 @@ interface CrimeOption {
   rewardMin: number;
   rewardMax: number;
   xpGain: number;
+  respeitoGain: number;
+  requiredRank: number;
 }
 
 const crimes: CrimeOption[] = [
@@ -27,6 +35,8 @@ const crimes: CrimeOption[] = [
     rewardMin: 50,
     rewardMax: 150,
     xpGain: 3,
+    respeitoGain: 1,
+    requiredRank: 0,
   },
   {
     label: "Assaltar Loja",
@@ -36,6 +46,8 @@ const crimes: CrimeOption[] = [
     rewardMin: 300,
     rewardMax: 800,
     xpGain: 8,
+    respeitoGain: 3,
+    requiredRank: 1,
   },
   {
     label: "Roubar Carro",
@@ -45,21 +57,25 @@ const crimes: CrimeOption[] = [
     rewardMin: 1500,
     rewardMax: 3000,
     xpGain: 20,
+    respeitoGain: 8,
+    requiredRank: 2,
   },
 ];
 
-const JAIL_DURATION_MS = 2 * 60 * 1000; // 2 minutes
-
-interface CrimesModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
+const JAIL_DURATION_MS = 2 * 60 * 1000;
 
 const formatMoney = (v: number) =>
   `R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
 
-const CrimesModal = ({ open, onOpenChange }: CrimesModalProps) => {
-  const { state, setState, logs, addLog } = useGame();
+interface CrimesModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onOpenCombat: () => void;
+}
+
+const CrimesModal = ({ open, onOpenChange, onOpenCombat }: CrimesModalProps) => {
+  const { state, setState, logs, addLog, triggerRandomEvent } = useGame();
+  const playerRankIdx = getRankIndex(state.respeito, state.nivel);
 
   const handleCrime = (crime: CrimeOption) => {
     if (state.nervos < crime.nervoCost) {
@@ -77,7 +93,8 @@ const CrimesModal = ({ open, onOpenChange }: CrimesModalProps) => {
         ...prev,
         nervos: prev.nervos - crime.nervoCost,
         dinheiro: prev.dinheiro + reward,
-        xp: Math.min(prev.xp + crime.xpGain, prev.xpMax),
+        xp: prev.xp + crime.xpGain,
+        respeito: prev.respeito + crime.respeitoGain,
       }));
       addLog(`Sucesso! ${crime.label} rendeu ${formatMoney(reward)}.`);
       toast.success(`Sucesso! Você conseguiu ${formatMoney(reward)}`);
@@ -91,6 +108,8 @@ const CrimesModal = ({ open, onOpenChange }: CrimesModalProps) => {
       toast.error("Você foi pego pela polícia!");
       onOpenChange(false);
     }
+
+    triggerRandomEvent();
   };
 
   return (
@@ -99,43 +118,70 @@ const CrimesModal = ({ open, onOpenChange }: CrimesModalProps) => {
         <DialogHeader>
           <DialogTitle className="font-mono-game text-primary neon-text flex items-center gap-2">
             <Skull className="w-5 h-5" />
-            Favela — Crimes
+            Favela
           </DialogTitle>
         </DialogHeader>
 
-        {/* Nervos display */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground bg-muted/30 rounded-md px-3 py-2">
-          <span>Nervos disponíveis</span>
-          <span className="font-mono-game text-foreground font-bold">
-            {state.nervos}/{state.nervosMax}
-          </span>
-        </div>
+        <Tabs defaultValue="crimes">
+          <TabsList className="w-full bg-muted/30">
+            <TabsTrigger value="crimes" className="flex-1 text-xs font-mono-game">Crimes</TabsTrigger>
+            <TabsTrigger value="lutar" className="flex-1 text-xs font-mono-game">Lutar</TabsTrigger>
+          </TabsList>
 
-        {/* Crime options */}
-        <div className="space-y-2">
-          {crimes.map((crime) => {
-            const canDo = state.nervos >= crime.nervoCost;
-            return (
+          <TabsContent value="crimes" className="space-y-2 mt-3">
+            <div className="flex items-center justify-between text-xs text-muted-foreground bg-muted/30 rounded-md px-3 py-2">
+              <span>Nervos</span>
+              <span className="font-mono-game text-foreground font-bold">
+                {state.nervos}/{state.nervosMax}
+              </span>
+            </div>
+
+            {crimes.map((crime) => {
+              const locked = playerRankIdx < crime.requiredRank;
+              const canDo = state.nervos >= crime.nervoCost && !locked;
+              return (
+                <button
+                  key={crime.label}
+                  onClick={() => handleCrime(crime)}
+                  disabled={!canDo}
+                  className="w-full flex items-center gap-3 p-3 rounded-md border border-border bg-secondary/50 transition-all duration-200 hover:neon-box hover:border-primary/60 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none"
+                >
+                  <crime.icon className="w-5 h-5 text-primary flex-shrink-0" />
+                  <div className="text-left flex-1">
+                    <div className="text-sm font-medium text-foreground">
+                      {crime.label}
+                      {locked && <span className="ml-2 text-xs text-destructive font-mono-game">🔒</span>}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Custo: {crime.nervoCost} Nervos · Chance: {crime.successChance * 100}%
+                    </div>
+                    <div className="text-xs text-primary/70">
+                      {formatMoney(crime.rewardMin)} – {formatMoney(crime.rewardMax)}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </TabsContent>
+
+          <TabsContent value="lutar" className="mt-3">
+            <div className="text-center py-6 space-y-3">
+              <Swords className="w-10 h-10 mx-auto text-primary" />
+              <p className="text-sm text-muted-foreground">
+                Enfrente oponentes na Arena e ganhe Respeito!
+              </p>
               <button
-                key={crime.label}
-                onClick={() => handleCrime(crime)}
-                disabled={!canDo}
-                className="w-full flex items-center gap-3 p-3 rounded-md border border-border bg-secondary/50 transition-all duration-200 hover:neon-box hover:border-primary/60 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none"
+                onClick={() => {
+                  onOpenChange(false);
+                  onOpenCombat();
+                }}
+                className="px-6 py-2 rounded-md border border-primary/40 text-primary font-mono-game text-sm hover:neon-box hover:border-primary/60 transition-all"
               >
-                <crime.icon className="w-5 h-5 text-primary flex-shrink-0" />
-                <div className="text-left flex-1">
-                  <div className="text-sm font-medium text-foreground">{crime.label}</div>
-                  <div className="text-xs text-muted-foreground">
-                    Custo: {crime.nervoCost} Nervos · Chance: {crime.successChance * 100}%
-                  </div>
-                  <div className="text-xs text-primary/70">
-                    Recompensa: {formatMoney(crime.rewardMin)} – {formatMoney(crime.rewardMax)}
-                  </div>
-                </div>
+                Entrar na Arena
               </button>
-            );
-          })}
-        </div>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {/* Activity Log */}
         {logs.length > 0 && (
@@ -144,7 +190,7 @@ const CrimesModal = ({ open, onOpenChange }: CrimesModalProps) => {
               <ScrollText className="w-3 h-3" />
               Log de Atividades
             </div>
-            <div className="space-y-1 max-h-32 overflow-y-auto">
+            <div className="space-y-1 max-h-24 overflow-y-auto">
               {logs.map((log) => (
                 <div
                   key={log.id}

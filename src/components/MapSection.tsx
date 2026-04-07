@@ -5,6 +5,7 @@ import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
 import AcademiaModal from "./AcademiaModal";
 import CrimesModal from "./CrimesModal";
+import LojaModal from "./LojaModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";
@@ -52,6 +53,7 @@ const locations = [
 const MapSection = () => {
   const [academiaOpen, setAcademiaOpen] = useState(false);
   const [crimesOpen, setCrimesOpen] = useState(false);
+  const [lojaOpen, setLojaOpen] = useState(false);
   const { isInJail } = useGame();
 
   const handleLocationClick = (id: string) => {
@@ -61,6 +63,7 @@ const MapSection = () => {
     }
     if (id === "academia") setAcademiaOpen(true);
     else if (id === "favela") setCrimesOpen(true);
+    else if (id === "loja") setLojaOpen(true);
   };
 
   return (
@@ -77,10 +80,7 @@ const MapSection = () => {
         <div className="flex-shrink-0 w-2" />
         {locations.map((loc) => (
           <div key={loc.id} className="snap-center">
-            <LocationCard
-              {...loc}
-              onClick={() => handleLocationClick(loc.id)}
-            />
+            <LocationCard {...loc} onClick={() => handleLocationClick(loc.id)} />
           </div>
         ))}
         <div className="flex-shrink-0 w-2" />
@@ -88,6 +88,7 @@ const MapSection = () => {
 
       <AcademiaModal open={academiaOpen} onOpenChange={setAcademiaOpen} />
       <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} />
+      <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
     </section>
   );
 };

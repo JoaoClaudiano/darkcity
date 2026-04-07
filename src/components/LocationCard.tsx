@@ -5,10 +5,11 @@ interface LocationCardProps {
   description: string;
   image: string;
   icon: LucideIcon;
+  onClick?: () => void;
 }
 
-const LocationCard = ({ title, description, image, icon: Icon }: LocationCardProps) => (
-  <button className="flex-shrink-0 w-64 group cursor-pointer focus:outline-none">
+const LocationCard = ({ title, description, image, icon: Icon, onClick }: LocationCardProps) => (
+  <button onClick={onClick} className="flex-shrink-0 w-64 group cursor-pointer focus:outline-none">
     <div className="relative h-80 rounded-lg overflow-hidden border border-border bg-card transition-all duration-300 group-hover:neon-box group-focus:neon-box group-hover:border-primary/60">
       <img
         src={image}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
+
 import { Dumbbell, Shield, Zap, ScrollText } from "lucide-react";
 import {
   Dialog,
@@ -30,7 +31,7 @@ interface AcademiaModalProps {
 }
 
 const AcademiaModal = ({ open, onOpenChange }: AcademiaModalProps) => {
-  const { state, setState, logs, addLog } = useGame();
+  const { state, setState, logs, addLog, triggerRandomEvent } = useGame();
   const [training, setTraining] = useState<string | null>(null);
 
   const canTrain = state.energia >= ENERGY_COST;
@@ -48,12 +49,13 @@ const AcademiaModal = ({ open, onOpenChange }: AcademiaModalProps) => {
       ...prev,
       energia: prev.energia - ENERGY_COST,
       [option.stat]: prev[option.stat] + gain,
-      xp: Math.min(prev.xp + 5, prev.xpMax),
+      xp: prev.xp + 5,
     }));
 
     addLog(`Você treinou ${option.statLabel} e ganhou +${gain} pontos!`);
     toast.success(`+${gain} ${option.statLabel}!`);
 
+    triggerRandomEvent();
     setTimeout(() => setTraining(null), 300);
   };
 

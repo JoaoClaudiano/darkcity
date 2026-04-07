@@ -55,6 +55,7 @@ const AcademiaModal = ({ open, onOpenChange }: AcademiaModalProps) => {
     addLog(`Você treinou ${option.statLabel} e ganhou +${gain} pontos!`);
     toast.success(`+${gain} ${option.statLabel}!`);
 
+    triggerRandomEvent();
     setTimeout(() => setTraining(null), 300);
   };
 

@@ -31,7 +31,7 @@ interface AcademiaModalProps {
 }
 
 const AcademiaModal = ({ open, onOpenChange }: AcademiaModalProps) => {
-  const { state, setState, logs, addLog } = useGame();
+  const { state, setState, logs, addLog, triggerRandomEvent } = useGame();
   const [training, setTraining] = useState<string | null>(null);
 
   const canTrain = state.energia >= ENERGY_COST;

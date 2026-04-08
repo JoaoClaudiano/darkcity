@@ -103,6 +103,30 @@ const Hospital: React.FC<{ x: number; y: number }> = ({ x, y }) => (
   </BuildingBlock>
 );
 
+const Aeroporto: React.FC<{ x: number; y: number }> = ({ x, y }) => (
+  <BuildingBlock x={x} y={y} color="#00ccff" label="Aeroporto">
+    <rect width={B} height={IH} fill="#06101a" />
+    {/* tarmac background */}
+    <rect x={4} y={4} width={100} height={80} rx={3} fill="#0d1c2a" stroke="#000" strokeWidth={2} />
+    {/* runway — vertical strip */}
+    <rect x={44} y={6} width={20} height={76} rx={2} fill="#111e2e" stroke="#1a2e3e" strokeWidth={1} />
+    {/* runway dashes */}
+    {[10, 22, 34, 46, 58, 70].map((dy) => (
+      <rect key={dy} x={52} y={dy} width={4} height={8} rx={1} fill="#ffe066" opacity={0.5} />
+    ))}
+    {/* airplane body */}
+    <ellipse cx={54} cy={40} rx={7} ry={22} fill="#00ccff" opacity={0.9} />
+    {/* left wing */}
+    <polygon points="54,34 22,46 54,46" fill="#00aadd" opacity={0.85} />
+    {/* right wing */}
+    <polygon points="54,34 86,46 54,46" fill="#00aadd" opacity={0.85} />
+    {/* tail fin */}
+    <polygon points="54,18 46,30 62,30" fill="#008ab3" />
+    {/* cockpit glare */}
+    <ellipse cx={54} cy={20} rx={3} ry={4} fill="#ccf5ff" opacity={0.5} />
+  </BuildingBlock>
+);
+
 const Cassino: React.FC<{ x: number; y: number; onClick: () => void }> = ({ x, y, onClick }) => (
   <BuildingBlock x={x} y={y} color="#cc00ff" label="Cassino" onClick={onClick}>
     <rect width={B} height={IH} fill="#10081a" />
@@ -325,9 +349,9 @@ const CityMap: React.FC<CityMapProps> = ({ onLocationClick }) => {
       ))}
 
       {/* ── row 0 ── */}
-      <Academia x={bx(0)} y={by(0)} onClick={() => onLocationClick("academia")} />
-      <Hospital x={bx(1)} y={by(0)} />
-      <Cassino  x={bx(2)} y={by(0)} onClick={() => onLocationClick("cassino")} />
+      <Academia  x={bx(0)} y={by(0)} onClick={() => onLocationClick("academia")} />
+      <Aeroporto x={bx(1)} y={by(0)} />
+      <Cassino   x={bx(2)} y={by(0)} onClick={() => onLocationClick("cassino")} />
 
       {/* ── row 1 ── */}
       <Favela      x={bx(0)} y={by(1)} onClick={() => onLocationClick("favela")} />

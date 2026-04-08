@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGame, getRank } from "@/contexts/GameContext";
-import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp, Wrench } from "lucide-react";
+import { Zap, Brain, Heart, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { PROPERTIES } from "@/components/ImoveisModal";
 import InventarioModal from "@/components/InventarioModal";
@@ -93,23 +93,31 @@ const StatsHeader = () => {
             <StatBar value={state.xp} max={state.xpMax} color="bg-primary" />
           </div>
 
-          {/* Bottom row */}
-          <div className="flex gap-4">
+          {/* Status bars: HP (red) · Energia (blue) · Nervos (green) */}
+          <div className="flex gap-3">
             <div className="flex-1">
               <div className="flex items-center gap-1 text-xs text-muted-foreground mb-0.5">
-                <Zap className="w-3 h-3 text-primary" />
-                <span>Energia</span>
-                <span className="ml-auto">{state.energia}/{state.energiaMax}</span>
+                <Heart className="w-3 h-3 text-red-500" />
+                <span>HP</span>
+                <span className="ml-auto">{state.vida}/{state.vidaMax}</span>
               </div>
-              <StatBar value={state.energia} max={state.energiaMax} color="bg-primary" />
+              <StatBar value={state.vida} max={state.vidaMax} color="bg-red-500" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-1 text-xs text-muted-foreground mb-0.5">
-                <Brain className="w-3 h-3 text-destructive" />
+                <Zap className="w-3 h-3 text-blue-400" />
+                <span>Energia</span>
+                <span className="ml-auto">{state.energia}/{state.energiaMax}</span>
+              </div>
+              <StatBar value={state.energia} max={state.energiaMax} color="bg-blue-500" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-1 text-xs text-muted-foreground mb-0.5">
+                <Brain className="w-3 h-3 text-green-500" />
                 <span>Nervos</span>
                 <span className="ml-auto">{state.nervos}/{state.nervosMax}</span>
               </div>
-              <StatBar value={state.nervos} max={state.nervosMax} color="bg-destructive" />
+              <StatBar value={state.nervos} max={state.nervosMax} color="bg-green-500" />
             </div>
           </div>
         </div>

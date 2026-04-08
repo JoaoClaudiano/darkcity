@@ -63,7 +63,9 @@ interface GameState {
   defesa: number;
   agilidade: number;
   respeito: number;
+  sucata: number;
   ppisoEnd: number | null;
+  hospitalEnd: number | null;
   inventory: InventoryItem[];
   properties: Record<string, number>;
   lastIncomeTime: number;

@@ -61,6 +61,8 @@ interface GameState {
   respeito: number;
   ppisoEnd: number | null;
   inventory: InventoryItem[];
+  properties: Record<string, number>;
+  lastIncomeTime: number;
 }
 
 interface GameContextType {

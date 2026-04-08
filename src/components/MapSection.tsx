@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building } from "lucide-react";
+import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building, Dice5, Hammer } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
@@ -8,6 +8,8 @@ import CrimesModal from "./CrimesModal";
 import CombatModal from "./CombatModal";
 import LojaModal from "./LojaModal";
 import ImoveisModal from "./ImoveisModal";
+import CassinoModal from "./CassinoModal";
+import OficinaModal from "./OficinaModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";
@@ -58,6 +60,20 @@ const locations = [
     image: imoveisImg,
     icon: Building,
   },
+  {
+    id: "cassino",
+    title: "Cassino",
+    description: "Aposte alto e arrisque tudo nos jogos de azar.",
+    image: imoveisImg,
+    icon: Dice5,
+  },
+  {
+    id: "oficina",
+    title: "Oficina",
+    description: "Desmonte e melhore seus equipamentos.",
+    image: favelaImg,
+    icon: Hammer,
+  },
 ];
 
 const MapSection = () => {
@@ -66,6 +82,8 @@ const MapSection = () => {
   const [combatOpen, setCombatOpen] = useState(false);
   const [lojaOpen, setLojaOpen] = useState(false);
   const [imoveisOpen, setImoveisOpen] = useState(false);
+  const [cassinoOpen, setCassinoOpen] = useState(false);
+  const [oficinaOpen, setOficinaOpen] = useState(false);
   const { isInJail } = useGame();
 
   const handleLocationClick = (id: string) => {
@@ -77,6 +95,8 @@ const MapSection = () => {
     else if (id === "favela") setCrimesOpen(true);
     else if (id === "loja") setLojaOpen(true);
     else if (id === "imoveis") setImoveisOpen(true);
+    else if (id === "cassino") setCassinoOpen(true);
+    else if (id === "oficina") setOficinaOpen(true);
   };
 
   return (
@@ -104,6 +124,8 @@ const MapSection = () => {
       <CombatModal open={combatOpen} onOpenChange={setCombatOpen} />
       <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
       <ImoveisModal open={imoveisOpen} onOpenChange={setImoveisOpen} />
+      <CassinoModal open={cassinoOpen} onOpenChange={setCassinoOpen} />
+      <OficinaModal open={oficinaOpen} onOpenChange={setOficinaOpen} />
     </section>
   );
 };

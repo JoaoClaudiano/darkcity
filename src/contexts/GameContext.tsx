@@ -13,6 +13,9 @@ export interface InventoryItem {
   type: "consumable" | "equipment";
   quantity: number;
   equipped?: boolean;
+  level?: number;
+  baseStat?: number;
+  statType?: "forca" | "defesa";
 }
 
 export type RankTitle = "Novato" | "Pivete" | "Capanga" | "Sub-chefe" | "Don";
@@ -60,7 +63,9 @@ interface GameState {
   defesa: number;
   agilidade: number;
   respeito: number;
+  sucata: number;
   ppisoEnd: number | null;
+  hospitalEnd: number | null;
   inventory: InventoryItem[];
   properties: Record<string, number>;
   lastIncomeTime: number;
@@ -102,7 +107,9 @@ const defaultState: GameState = {
   defesa: 10,
   agilidade: 10,
   respeito: 0,
+  sucata: 0,
   ppisoEnd: null,
+  hospitalEnd: null,
   inventory: [],
   properties: {},
   lastIncomeTime: Date.now(),

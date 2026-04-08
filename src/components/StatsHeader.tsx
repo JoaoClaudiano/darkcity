@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGame, getRank } from "@/contexts/GameContext";
-import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp } from "lucide-react";
+import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { PROPERTIES } from "@/components/ImoveisModal";
 import InventarioModal from "@/components/InventarioModal";
@@ -54,6 +54,9 @@ const StatsHeader = () => {
             <div className="flex items-center gap-1.5">
               <Star className="w-3 h-3 text-primary" />
               <span className="font-mono-game text-xs text-primary">{state.respeito}</span>
+              <span className="mx-1 text-border">|</span>
+              <Wrench className="w-3 h-3 text-muted-foreground" />
+              <span className="font-mono-game text-xs text-muted-foreground">{state.sucata}</span>
               <span className="mx-1 text-border">|</span>
               <DollarSign className="w-3 h-3 text-primary" />
               <span className="font-mono-game text-xs text-primary">

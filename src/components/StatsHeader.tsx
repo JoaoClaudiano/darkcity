@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useGame, getRank } from "@/contexts/GameContext";
-import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp } from "lucide-react";
+import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { PROPERTIES } from "@/components/ImoveisModal";
 import InventarioModal from "@/components/InventarioModal";

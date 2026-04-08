@@ -55,6 +55,9 @@ const StatsHeader = () => {
               <Star className="w-3 h-3 text-primary" />
               <span className="font-mono-game text-xs text-primary">{state.respeito}</span>
               <span className="mx-1 text-border">|</span>
+              <Wrench className="w-3 h-3 text-muted-foreground" />
+              <span className="font-mono-game text-xs text-muted-foreground">{state.sucata}</span>
+              <span className="mx-1 text-border">|</span>
               <DollarSign className="w-3 h-3 text-primary" />
               <span className="font-mono-game text-xs text-primary">
                 {formatMoney(state.dinheiro)}

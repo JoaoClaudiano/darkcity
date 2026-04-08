@@ -50,6 +50,13 @@ const locations = [
     image: prisaoImg,
     icon: Lock,
   },
+  {
+    id: "imoveis",
+    title: "Imóveis",
+    description: "Compre propriedades e ganhe renda passiva automaticamente.",
+    image: prisaoImg,
+    icon: Building,
+  },
 ];
 
 const MapSection = () => {

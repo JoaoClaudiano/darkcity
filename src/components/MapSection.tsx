@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building } from "lucide-react";
+import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building, Dice5, Hammer } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
@@ -8,6 +8,8 @@ import CrimesModal from "./CrimesModal";
 import CombatModal from "./CombatModal";
 import LojaModal from "./LojaModal";
 import ImoveisModal from "./ImoveisModal";
+import CassinoModal from "./CassinoModal";
+import OficinaModal from "./OficinaModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";

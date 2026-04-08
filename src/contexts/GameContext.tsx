@@ -103,6 +103,8 @@ const defaultState: GameState = {
   respeito: 0,
   ppisoEnd: null,
   inventory: [],
+  properties: {},
+  lastIncomeTime: Date.now(),
 };
 
 const loadState = (): GameState => {

@@ -55,7 +55,7 @@ const locations = [
     id: "imoveis",
     title: "Imóveis",
     description: "Compre propriedades e ganhe renda passiva automaticamente.",
-    image: prisaoImg,
+    image: imoveisImg,
     icon: Building,
   },
 ];

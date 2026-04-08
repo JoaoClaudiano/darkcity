@@ -54,6 +54,8 @@ interface GameState {
   nivel: number;
   xp: number;
   xpMax: number;
+  vida: number;
+  vidaMax: number;
   energia: number;
   energiaMax: number;
   nervos: number;
@@ -98,6 +100,8 @@ const defaultState: GameState = {
   nivel: 1,
   xp: 35,
   xpMax: 100,
+  vida: 100,
+  vidaMax: 100,
   energia: 80,
   energiaMax: 100,
   nervos: 60,
@@ -295,6 +299,18 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
           : { ...prev, nervos: Math.min(prev.nervos + 2, prev.nervosMax) }
       );
     }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // HP regen: +1 every 60s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setState((prev) =>
+        prev.vida >= prev.vidaMax
+          ? prev
+          : { ...prev, vida: Math.min(prev.vida + 1, prev.vidaMax) }
+      );
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 

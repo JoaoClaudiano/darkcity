@@ -64,6 +64,7 @@ const MapSection = () => {
   const [crimesOpen, setCrimesOpen] = useState(false);
   const [combatOpen, setCombatOpen] = useState(false);
   const [lojaOpen, setLojaOpen] = useState(false);
+  const [imoveisOpen, setImoveisOpen] = useState(false);
   const { isInJail } = useGame();
 
   const handleLocationClick = (id: string) => {

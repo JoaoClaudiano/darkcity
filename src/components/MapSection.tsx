@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Swords } from "lucide-react";
+import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
@@ -7,11 +7,13 @@ import AcademiaModal from "./AcademiaModal";
 import CrimesModal from "./CrimesModal";
 import CombatModal from "./CombatModal";
 import LojaModal from "./LojaModal";
+import ImoveisModal from "./ImoveisModal";
 import academiaImg from "@/assets/academia.jpg";
 import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";
 import hospitalImg from "@/assets/hospital.jpg";
 import prisaoImg from "@/assets/prisao.jpg";
+import imoveisImg from "@/assets/imoveis.jpg";
 
 const locations = [
   {
@@ -49,6 +51,13 @@ const locations = [
     image: prisaoImg,
     icon: Lock,
   },
+  {
+    id: "imoveis",
+    title: "Imóveis",
+    description: "Compre propriedades e ganhe renda passiva automaticamente.",
+    image: imoveisImg,
+    icon: Building,
+  },
 ];
 
 const MapSection = () => {
@@ -56,6 +65,7 @@ const MapSection = () => {
   const [crimesOpen, setCrimesOpen] = useState(false);
   const [combatOpen, setCombatOpen] = useState(false);
   const [lojaOpen, setLojaOpen] = useState(false);
+  const [imoveisOpen, setImoveisOpen] = useState(false);
   const { isInJail } = useGame();
 
   const handleLocationClick = (id: string) => {
@@ -66,6 +76,7 @@ const MapSection = () => {
     if (id === "academia") setAcademiaOpen(true);
     else if (id === "favela") setCrimesOpen(true);
     else if (id === "loja") setLojaOpen(true);
+    else if (id === "imoveis") setImoveisOpen(true);
   };
 
   return (
@@ -92,6 +103,7 @@ const MapSection = () => {
       <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} onOpenCombat={() => setCombatOpen(true)} />
       <CombatModal open={combatOpen} onOpenChange={setCombatOpen} />
       <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
+      <ImoveisModal open={imoveisOpen} onOpenChange={setImoveisOpen} />
     </section>
   );
 };

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useGame, getRank } from "@/contexts/GameContext";
-import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, User } from "lucide-react";
+import { Zap, Brain, DollarSign, Briefcase, RotateCcw, Crown, Star, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
+import { PROPERTIES } from "@/components/ImoveisModal";
 import InventarioModal from "@/components/InventarioModal";
 import ProfileModal from "@/components/ProfileModal";
 
@@ -19,6 +20,9 @@ const StatsHeader = () => {
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const rank = getRank(state.respeito, state.nivel);
+  const passiveIncome = PROPERTIES.reduce(
+    (sum, p) => sum + (state.properties[p.id] || 0) * p.income, 0
+  );
 
   const formatMoney = (v: number) =>
     `R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
@@ -55,6 +59,11 @@ const StatsHeader = () => {
               <span className="font-mono-game text-xs text-primary">
                 {formatMoney(state.dinheiro)}
               </span>
+              {passiveIncome > 0 && (
+                <span className="flex items-center gap-0.5 font-mono-game text-[10px] text-muted-foreground">
+                  <TrendingUp className="w-2.5 h-2.5" />+{formatMoney(passiveIncome)}/5min
+                </span>
+              )}
               <button
                 onClick={() => setInventoryOpen(true)}
                 className="p-1 rounded hover:bg-muted/50 transition-colors text-muted-foreground hover:text-primary"

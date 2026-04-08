@@ -174,9 +174,35 @@ const randomEvents: RandomEvent[] = [
 ];
 
 export const GameProvider = ({ children }: { children: ReactNode }) => {
-  const [state, setState] = useState<GameState>(loadState);
+  const loaded = useRef(loadState());
+  const [state, setState] = useState<GameState>(() => loaded.current.state);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [jailSecondsLeft, setJailSecondsLeft] = useState(0);
+
+  // Show offline earnings on mount
+  useEffect(() => {
+    const earnings = loaded.current.offlineEarnings;
+    if (earnings > 0) {
+      const fmt = (v: number) => `R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
+      addLog(`💰 Renda offline: ${fmt(earnings)}`);
+      import("sonner").then(({ toast }) => {
+        toast.success(`Enquanto você estava fora, seus negócios renderam ${fmt(earnings)}!`);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Passive income tick every 5 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setState((prev) => {
+        const income = calcPassiveIncome(prev.properties);
+        if (income <= 0) return prev;
+        return { ...prev, dinheiro: prev.dinheiro + income, lastIncomeTime: Date.now() };
+      });
+    }, INCOME_INTERVAL);
+    return () => clearInterval(interval);
+  }, []);
 
   const addLog = useCallback((message: string) => {
     setLogs((prev) =>

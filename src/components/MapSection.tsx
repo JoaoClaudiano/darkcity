@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building, Dice5, Hammer } from "lucide-react";
+import { Dumbbell, Skull, ShoppingBag, Heart, Lock, Building, Dice5, Hammer, Map } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import LocationCard from "./LocationCard";
@@ -10,69 +10,79 @@ import LojaModal from "./LojaModal";
 import ImoveisModal from "./ImoveisModal";
 import CassinoModal from "./CassinoModal";
 import OficinaModal from "./OficinaModal";
-import academiaImg from "@/assets/academia.jpg";
-import favelaImg from "@/assets/favela.jpg";
-import lojaImg from "@/assets/loja.jpg";
-import hospitalImg from "@/assets/hospital.jpg";
-import prisaoImg from "@/assets/prisao.jpg";
-import imoveisImg from "@/assets/imoveis.jpg";
+import AcademiaIllustration from "./illustrations/AcademiaIllustration";
+import HospitalIllustration from "./illustrations/HospitalIllustration";
+import CassinoIllustration from "./illustrations/CassinoIllustration";
+import FavelaIllustration from "./illustrations/FavelaIllustration";
+import LojaIllustration from "./illustrations/LojaIllustration";
+import PrisaoIllustration from "./illustrations/PrisaoIllustration";
+import ImoveisIllustration from "./illustrations/ImoveisIllustration";
+import OficinaIllustration from "./illustrations/OficinaIllustration";
 
 const locations = [
   {
     id: "academia",
     title: "Academia",
-    description: "Treine suas habilidades e aumente sua força para dominar as ruas.",
-    image: academiaImg,
+    description: "Treine e aumente sua força.",
+    illustration: AcademiaIllustration,
     icon: Dumbbell,
-  },
-  {
-    id: "favela",
-    title: "Favela",
-    description: "Cometa crimes, lute e ganhe respeito no submundo.",
-    image: favelaImg,
-    icon: Skull,
-  },
-  {
-    id: "loja",
-    title: "Loja",
-    description: "Compre armas, itens e equipamentos para suas missões.",
-    image: lojaImg,
-    icon: ShoppingBag,
-  },
-  {
-    id: "hospital",
-    title: "Hospital",
-    description: "Recupere sua energia e cure ferimentos de batalha.",
-    image: hospitalImg,
-    icon: Heart,
-  },
-  {
-    id: "prisao",
-    title: "Prisão",
-    description: "Cuidado! Se for pego, vai parar aqui. Tente escapar ou aguarde.",
-    image: prisaoImg,
-    icon: Lock,
-  },
-  {
-    id: "imoveis",
-    title: "Imóveis",
-    description: "Compre propriedades e ganhe renda passiva automaticamente.",
-    image: imoveisImg,
-    icon: Building,
+    accentColor: "#ff6800",
   },
   {
     id: "cassino",
     title: "Cassino",
-    description: "Aposte alto e arrisque tudo nos jogos de azar.",
-    image: imoveisImg,
+    description: "Aposte alto e arrisque tudo.",
+    illustration: CassinoIllustration,
     icon: Dice5,
+    accentColor: "#cc00ff",
+  },
+  {
+    id: "hospital",
+    title: "Hospital",
+    description: "Cure ferimentos de batalha.",
+    illustration: HospitalIllustration,
+    icon: Heart,
+    accentColor: "#00cc66",
+  },
+  {
+    id: "favela",
+    title: "Favela",
+    description: "Cometa crimes no submundo.",
+    illustration: FavelaIllustration,
+    icon: Skull,
+    accentColor: "#cc2200",
+  },
+  {
+    id: "imoveis",
+    title: "Imóveis",
+    description: "Compre e ganhe renda passiva.",
+    illustration: ImoveisIllustration,
+    icon: Building,
+    accentColor: "#d4a800",
+  },
+  {
+    id: "loja",
+    title: "Loja",
+    description: "Compre armas e equipamentos.",
+    illustration: LojaIllustration,
+    icon: ShoppingBag,
+    accentColor: "#00aaff",
+  },
+  {
+    id: "prisao",
+    title: "Prisão",
+    description: "Cuidado! Tente escapar.",
+    illustration: PrisaoIllustration,
+    icon: Lock,
+    accentColor: "#888888",
   },
   {
     id: "oficina",
     title: "Oficina",
-    description: "Desmonte e melhore seus equipamentos.",
-    image: favelaImg,
+    description: "Melhore seus equipamentos.",
+    illustration: OficinaIllustration,
     icon: Hammer,
+    accentColor: "#0088cc",
   },
 ];
 
@@ -101,22 +111,37 @@ const MapSection = () => {
 
   return (
     <section className="pt-32 pb-8 px-4">
-      <div className="max-w-lg mx-auto mb-4">
+      {/* Section header */}
+      <div className="max-w-lg mx-auto mb-4 flex items-center gap-2">
+        <Map className="w-4 h-4 text-primary" />
         <h2 className="font-mono-game text-sm font-bold text-muted-foreground uppercase tracking-widest">
-          // Mapa da Cidade
+          Mapa da Cidade
         </h2>
       </div>
+
+      {/* City map grid */}
       <div
-        className="flex gap-4 overflow-x-auto pb-4 px-4 snap-x snap-mandatory scroll-smooth -mx-4"
-        style={{ WebkitOverflowScrolling: "touch" }}
+        className="max-w-lg mx-auto"
+        style={{
+          background: "repeating-linear-gradient(0deg,#0d0d1a 0px,#0d0d1a 59px,#12122a 59px,#12122a 61px),repeating-linear-gradient(90deg,#0d0d1a 0px,#0d0d1a 59px,#12122a 59px,#12122a 61px)",
+          borderRadius: "16px",
+          padding: "10px",
+          border: "2px solid #12122a",
+        }}
       >
-        <div className="flex-shrink-0 w-2" />
-        {locations.map((loc) => (
-          <div key={loc.id} className="snap-center">
-            <LocationCard {...loc} onClick={() => handleLocationClick(loc.id)} />
-          </div>
-        ))}
-        <div className="flex-shrink-0 w-2" />
+        <div className="grid grid-cols-2 gap-3">
+          {locations.map((loc) => (
+            <LocationCard
+              key={loc.id}
+              title={loc.title}
+              description={loc.description}
+              illustration={loc.illustration}
+              icon={loc.icon}
+              accentColor={loc.accentColor}
+              onClick={() => handleLocationClick(loc.id)}
+            />
+          ))}
+        </div>
       </div>
 
       <AcademiaModal open={academiaOpen} onOpenChange={setAcademiaOpen} />
@@ -131,3 +156,4 @@ const MapSection = () => {
 };
 
 export default MapSection;
+

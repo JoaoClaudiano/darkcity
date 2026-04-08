@@ -13,6 +13,9 @@ export interface InventoryItem {
   type: "consumable" | "equipment";
   quantity: number;
   equipped?: boolean;
+  level?: number;
+  baseStat?: number;
+  statType?: "forca" | "defesa";
 }
 
 export type RankTitle = "Novato" | "Pivete" | "Capanga" | "Sub-chefe" | "Don";

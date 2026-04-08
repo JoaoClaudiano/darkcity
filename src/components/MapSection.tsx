@@ -124,6 +124,8 @@ const MapSection = () => {
       <CombatModal open={combatOpen} onOpenChange={setCombatOpen} />
       <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
       <ImoveisModal open={imoveisOpen} onOpenChange={setImoveisOpen} />
+      <CassinoModal open={cassinoOpen} onOpenChange={setCassinoOpen} />
+      <OficinaModal open={oficinaOpen} onOpenChange={setOficinaOpen} />
     </section>
   );
 };

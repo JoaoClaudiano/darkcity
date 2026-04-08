@@ -102,6 +102,9 @@ const LojaModal = ({ open, onOpenChange }: LojaModalProps) => {
             type: item.type,
             quantity: 1,
             equipped: item.type === "equipment",
+            level: item.type === "equipment" ? 0 : undefined,
+            baseStat: item.id === "taco" ? 10 : item.id === "colete" ? 10 : undefined,
+            statType: item.id === "taco" ? "forca" : item.id === "colete" ? "defesa" : undefined,
           },
         ];
       }

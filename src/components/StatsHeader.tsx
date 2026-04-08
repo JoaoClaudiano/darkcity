@@ -59,6 +59,11 @@ const StatsHeader = () => {
               <span className="font-mono-game text-xs text-primary">
                 {formatMoney(state.dinheiro)}
               </span>
+              {passiveIncome > 0 && (
+                <span className="flex items-center gap-0.5 font-mono-game text-[10px] text-muted-foreground">
+                  <TrendingUp className="w-2.5 h-2.5" />+{formatMoney(passiveIncome)}/5min
+                </span>
+              )}
               <button
                 onClick={() => setInventoryOpen(true)}
                 className="p-1 rounded hover:bg-muted/50 transition-colors text-muted-foreground hover:text-primary"

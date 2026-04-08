@@ -75,7 +75,7 @@ const MapSection = () => {
     if (id === "academia") setAcademiaOpen(true);
     else if (id === "favela") setCrimesOpen(true);
     else if (id === "loja") setLojaOpen(true);
-  };
+    else if (id === "imoveis") setImoveisOpen(true);
 
   return (
     <section className="pt-32 pb-8 px-4">

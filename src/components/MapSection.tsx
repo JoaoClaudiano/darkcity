@@ -60,6 +60,20 @@ const locations = [
     image: imoveisImg,
     icon: Building,
   },
+  {
+    id: "cassino",
+    title: "Cassino",
+    description: "Aposte alto e arrisque tudo nos jogos de azar.",
+    image: imoveisImg,
+    icon: Dice5,
+  },
+  {
+    id: "oficina",
+    title: "Oficina",
+    description: "Desmonte e melhore seus equipamentos.",
+    image: favelaImg,
+    icon: Hammer,
+  },
 ];
 
 const MapSection = () => {

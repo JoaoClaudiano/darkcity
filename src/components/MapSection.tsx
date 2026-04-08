@@ -95,6 +95,8 @@ const MapSection = () => {
     else if (id === "favela") setCrimesOpen(true);
     else if (id === "loja") setLojaOpen(true);
     else if (id === "imoveis") setImoveisOpen(true);
+    else if (id === "cassino") setCassinoOpen(true);
+    else if (id === "oficina") setOficinaOpen(true);
   };
 
   return (

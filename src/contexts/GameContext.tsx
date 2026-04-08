@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from "react";
+import { PROPERTIES } from "@/components/ImoveisModal";
 
 export interface LogEntry {
   id: number;

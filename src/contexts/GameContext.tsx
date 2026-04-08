@@ -108,7 +108,12 @@ const defaultState: GameState = {
   lastIncomeTime: Date.now(),
 };
 
-const loadState = (): GameState => {
+const calcPassiveIncome = (props: Record<string, number>): number =>
+  PROPERTIES.reduce((sum, p) => sum + (props[p.id] || 0) * p.income, 0);
+
+const INCOME_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+const loadState = (): { state: GameState; offlineEarnings: number } => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
@@ -116,10 +121,23 @@ const loadState = (): GameState => {
       if (parsed.ppisoEnd && Date.now() >= parsed.ppisoEnd) {
         parsed.ppisoEnd = null;
       }
-      return { ...defaultState, ...parsed };
+      const full: GameState = { ...defaultState, ...parsed };
+      // Calculate offline income
+      const now = Date.now();
+      const elapsed = now - (full.lastIncomeTime || now);
+      const ticks = Math.floor(elapsed / INCOME_INTERVAL);
+      const incomePerTick = calcPassiveIncome(full.properties);
+      const offlineEarnings = ticks * incomePerTick;
+      if (offlineEarnings > 0) {
+        full.dinheiro += offlineEarnings;
+        full.lastIncomeTime = (full.lastIncomeTime || now) + ticks * INCOME_INTERVAL;
+      } else {
+        full.lastIncomeTime = full.lastIncomeTime || now;
+      }
+      return { state: full, offlineEarnings };
     }
   } catch {}
-  return { ...defaultState };
+  return { state: { ...defaultState }, offlineEarnings: 0 };
 };
 
 // Random events pool

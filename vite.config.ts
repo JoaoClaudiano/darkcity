@@ -5,6 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Required for GitHub Pages: assets resolve to /darkcity/ sub-path
+  base: mode === "production" ? "/darkcity/" : "/",
   server: {
     host: "::",
     port: 8080,

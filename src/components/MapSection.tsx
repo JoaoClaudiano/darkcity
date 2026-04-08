@@ -76,6 +76,7 @@ const MapSection = () => {
     else if (id === "favela") setCrimesOpen(true);
     else if (id === "loja") setLojaOpen(true);
     else if (id === "imoveis") setImoveisOpen(true);
+  };
 
   return (
     <section className="pt-32 pb-8 px-4">
@@ -101,6 +102,7 @@ const MapSection = () => {
       <CrimesModal open={crimesOpen} onOpenChange={setCrimesOpen} onOpenCombat={() => setCombatOpen(true)} />
       <CombatModal open={combatOpen} onOpenChange={setCombatOpen} />
       <LojaModal open={lojaOpen} onOpenChange={setLojaOpen} />
+      <ImoveisModal open={imoveisOpen} onOpenChange={setImoveisOpen} />
     </section>
   );
 };

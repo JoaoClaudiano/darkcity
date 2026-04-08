@@ -13,6 +13,7 @@ import favelaImg from "@/assets/favela.jpg";
 import lojaImg from "@/assets/loja.jpg";
 import hospitalImg from "@/assets/hospital.jpg";
 import prisaoImg from "@/assets/prisao.jpg";
+import imoveisImg from "@/assets/imoveis.jpg";
 
 const locations = [
   {

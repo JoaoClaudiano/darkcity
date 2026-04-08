@@ -20,6 +20,9 @@ const StatsHeader = () => {
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const rank = getRank(state.respeito, state.nivel);
+  const passiveIncome = PROPERTIES.reduce(
+    (sum, p) => sum + (state.properties[p.id] || 0) * p.income, 0
+  );
 
   const formatMoney = (v: number) =>
     `R$ ${v.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`;
